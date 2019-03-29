@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水平垂直居中</title>
+</head>
+<body>
+    <!-- 水平居中 -->
+    <!-- 水平居中1 演示一个有单数分页的情况下，分页模块居中显示 缺点：增加了无义标签，增加嵌套层数 -->
+    <style type="text/css">
+        .wrap-row-center1 ul{list-style: none;margin: 0;padding: 0;}
+        .wrap-row-center1 table{margin-left: auto;margin-right: auto;}
+        .wrap-row-center1 .test li{float: left;display: inline;margin-right: 5px;}
+        .wrap-row-center1 .test a{float: left;width: 20px;height: 20px;text-align: center;line-height: 20px;background-color: #316ac5;color: #fff;border: 1px solid #316ac5;text-decoration: none;}
+        .wrap-row-center1 .test a:hover{background-color: #fff;color: #316ac5;}
+    </style>
+    <div class="wrap-row-center1">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <ul class="test">
+                            <li><a href="#">1</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <ul class="test">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <ul class="test">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 水平居中2 缺点：改变块级元素 display : inline 变成了行级元素 行级元素比块级元素少一些功能，比如设置长宽值，在某些特定的CSS需求里面有一些限制 -->
+    <style type="text/css">
+        .wrap-row-center2 ul{list-style: none;margin: 0;padding: 0;}
+        .wrap-row-center2 .test{text-align: center;padding: 5px;}
+        .wrap-row-center2 .test li{display: inline;}
+        .wrap-row-center2 .test a{padding: 0 6px;background-color: #316ac5;color: #fff;border: 1px solid #316ac5;text-decoration: none;}
+        .wrap-row-center2 .test a:hover{background-color: #fff;color: #316ac5;}
+    </style>
+    <div class="wrap-row-center2">
+        <ul class="test">
+            <li><a href="#">1</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+        </ul>
+    </div>
+    <!-- 水平居中3 通过给父元素设置 float position:relative;left:50%; 子元素设置position:relative;left:-50%; 缺点：设置了 position:relative 会带来一些副作用-->
+    <style type="text/css">
+        .wrap-row-center3 ul{list-style: none;margin: 0;padding: 0;}
+        .wrap-row-center3 .test{clear: both;padding-top: 5px;float: left;position: relative;left: 50%;}
+        .wrap-row-center3 .test li{float: left;margin-right: 5px;position: relative;left: -50%;}
+        .wrap-row-center3 .test a{float: left;width: 20px;height: 20px;text-align: center;line-height: 20px;background-color: #316ac5;color: #fff;border: 1px solid #316ac5;text-decoration: none;}
+        .wrap-row-center3 .test a:hover{background-color: #fff;color: #316ac5;}
+    </style>
+    <div class="wrap-row-center3">
+        <ul class="test">
+            <li><a href="#">1</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+        </ul>
+    </div>
+    <!-- 水平居中4 使用 CSS3 flex 布局新特性 align-items: center; 新特性简单明了，但不兼容老的浏览器 -->
+    <style type="text/css">
+        .wrap-row-center4 {clear: both;display: flex;flex-direction: column;align-items: center;}
+        .wrap-row-center4 ul{list-style: none;margin: 0;padding: 0;}
+        .wrap-row-center4 .test{}
+        .wrap-row-center4 .test li{float: left;margin-top: 5px;margin-right: 5px;}
+        .wrap-row-center4 .test a{float: left;width: 20px;height: 20px;text-align: center;line-height: 20px;background-color: #316ac5;color: #fff;border: 1px solid #316ac5;text-decoration: none;}
+        .wrap-row-center4 .test a:hover{background-color: #fff;color: #316ac5;}
+    </style>
+    <div class="wrap-row-center4">
+        <ul class="test">
+            <li><a href="#">1</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+        </ul>
+        <ul class="test">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+        </ul>
+    </div>
+
+
+    <!-- 垂直居中 -->
+    <!-- 垂直居中1 元素高度不确定的文本、图片、块级元素的垂直居中 通过给父元素设置相同的上下边距来实现 -->
+    <style type="text/css">
+        .wrap-column-center1 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center1 .test{margin-top: 5px;background-color: gray;width: 400px;color: #fff;padding-top: 20px;padding-bottom: 20px;border: 1px solid #000;margin-top:5px;}
+        .wrap-column-center1 .test .testchild{width: 200px;height: 50px;background-color: #316ac5;}
+    </style>
+    <div class="wrap-column-center1">
+        <div class="test">hello world!</div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中2 父元素高度确定的文本、图片、块级元素的实现 使用 table 元素的 vertical-align 属性来设置垂直居中 -->
+    <style type="text/css">
+        .wrap-column-center2 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center2 .test{background-color: gray;width: 400px;height: 100px;color: #fff;border: 1px solid #000;margin-top:5px;}
+        .wrap-column-center2 .test .testchild{width: 200px;height: 50px;background-color:#316ac5;}
+    </style>
+    <div class="wrap-column-center2">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="test">
+                        hello world!<br />hello world!<br />hello world!
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="test"><img src="" alt=""></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="test"><div class="testchild"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 垂直居中3 将父元素设置成 display:table-cell 使用 table 元素的 vertical-align:middle 属性来设置垂直居中 缺点 ：父元素成为特殊的行级元素，当多个 table-cell 放到一起的时候，他们会在一行内排列 -->
+    <style type="text/css">
+        .wrap-column-center3 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center3 .test{background-color: gray;width: 400px;height: 100px;color: #fff;display: table-cell;vertical-align: middle;border: 1px solid #000;margin-top:5px;}
+        .wrap-column-center3 .test .testchild{width: 100px;height: 50px;background-color:#316ac5;}
+    </style>
+    <div class="wrap-column-center3">
+        <div class="test">hello world<br />hello world</div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中4 相对定位和负边距 和水平居中3方法一样 注意：父元素设置为 position:relative ；子元素高度宽度均需要设置不能设置成 % ，对于span等行内元素需要设置 position:absolute 块级元素设置为 position:relative 即可；该方法可以变形为通过 translate 来设定-->
+    <style type="text/css">
+        .wrap-column-center4 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center4 .test{margin-top: 5px;background-color: gray;width: 400px;height: 100px;color: #fff;position:relative;border: 1px solid #000;margin-top:5px;}
+        .wrap-column-center4 .test *{width: 200px;height: 50px;background-color:#316ac5;position: absolute;top:50%;margin-top: -25px;}
+    </style>
+    <div class="wrap-column-center4">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中5 绝对定位和0边距 父元素一定要设置成 position:relative/absolute 子元素可以设置 % 的高宽，这样对移动端的支持也是比较好的  该方法是通过 margin:auto 和 top:0;right:0;bottom:0;left:0; 来完成居中定位，很神奇。-->
+    <style type="text/css">
+        .wrap-column-center5 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center5 .test{background-color: gray;width: 400px;height: 100px;color: #fff;position:relative;border: 1px solid #000;margin-top:5px;}
+        .wrap-column-center5 .test *{width: 50%; height: 50%; background: #316ac5;overflow: auto; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
+    </style>
+    <div class="wrap-column-center5">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中6 通过:after来占位 子元素的 vertical-align:middle;display:inline-block; 和 after 元素的 content:'';height:100%;display:inline-block;vertical-align:middle; 缺一不可，还没弄懂他的原理 -->
+    <style type="text/css">
+        .wrap-column-center6 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center6 .test{background-color: gray;width: 400px;height: 100px;color: #fff;border: 1px solid #000;margin-top:5px;text-align:center;}
+        .wrap-column-center6 .test *{width: 50%; height: 50%; background: #316ac5;vertical-align:middle;display:inline-block;}
+        .wrap-column-center6 .test:after{content:'';width:0;height:100%;display:inline-block;vertical-align:middle;}
+    </style>
+    <div class="wrap-column-center6">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中7 CSS3 display:flex 使用弹性布局， align-items: center; 就可以实现垂直居中 -->
+    <style type="text/css">
+        .wrap-column-center7 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center7 .test{background-color: gray;width: 400px;height: 100px;color: #fff;border: 1px solid #000;margin-top:5px; display:flex;align-items: center;justify-content: center;text-align: center;}
+        .wrap-column-center7 .test *{width: 200px;height: 50px;background-color:#316ac5;}
+    </style>
+    <div class="wrap-column-center7">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中8 CSS3 display:flex 使用弹性布局， margin:auto 就可以实现垂直居中 -->
+    <style type="text/css">
+        .wrap-column-center8 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center8 .test{background-color: gray;width: 400px;height: 100px;color: #fff;border: 1px solid #000;margin-top:5px;display:flex;text-align: center;}
+        .wrap-column-center8 .test *{width: 200px;height: 50px;background-color:#316ac5;margin: auto;}
+    </style>
+    <div class="wrap-column-center8">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+    <!-- 垂直居中9 webkit-box -->
+    <style type="text/css">
+        .wrap-column-center9 {border: 2px solid #000;margin-top:5px;}
+        .wrap-column-center9 .test{background-color: gray;width: 400px;height: 100px;color: #fff;border: 1px solid #000;margin-top:5px;display: -webkit-box;-webkit-box-pack:center;-webkit-box-align:center;-webkit-box-orient: vertical;text-align: center;}
+        .wrap-column-center9 .test *{width: 200px;height: 50px;background-color:#316ac5;}
+    </style>
+    <div class="wrap-column-center9">
+        <div class="test"><span>hello world<br />hello world</span></div>
+        <div class="test"><img src="" alt=""></div>
+        <div class="test"><div class="testchild"></div></div>
+    </div>
+</body>
+</html>

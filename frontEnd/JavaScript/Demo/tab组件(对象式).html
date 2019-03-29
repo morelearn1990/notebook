@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tab 组件</title>
+    <style media="screen">
+        ul{margin: 0;padding: 0;}
+        .tab{/*width: 800px;*/margin-top: 5px;}
+        .tab-menuWrapper{padding-left: 20px;}
+        .tab-menuWrapper li{float: left;display: inline;padding: 5px;border: 1px solid #333;border-bottom: none;margin-right: 50px;}
+        .tab-contentWrapper{border: 1px solid #333;clear: both;padding: 5px;}
+        .tab .tab-curentMenu{background-color: #333;color: #FFF;}
+        .tab .tab-passMenu{background-color: rgb(16, 104, 205);color: #FFF;}
+    </style>
+</head>
+<body>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+            <li class="J_tab-menuWrapper">menu4</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+            <div style="display:none" class="J_tab-contentWrapper">content4</div>
+        </div>
+    </div>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper  tab-curentMenu">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+            <li class="J_tab-menuWrapper">menu4</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+            <div style="display:none" class="J_tab-contentWrapper">content4</div>
+        </div>
+    </div>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper tab-passMenu">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var GLOBAL = {} //定义全局变量
+        // 定义全局变量的命名空间
+        GLOBAL.namespace = function (str) {
+            var arr = str.split("."), o = GLOBAL;
+            for ( i = (arr[0] == "GLOBAL") ? 1 : 0; i < arr.length; i++) {
+                o[arr[i]] = o[arr[i]] || {} ;
+                o = o[arr[i]];
+            }
+        };
+        GLOBAL.namespace("Dom");
+        //定义使用getElementsByClassName 获得node
+        GLOBAL.Dom.getElementsByClassName = function (str, root, tag) {
+            if(root) {
+                root = (typeof root === "string") ? document.getElementById(root):root
+            }else{
+                root=document.body;
+            }
+            tag = tag || "*";
+            var els=root.getElementsByTagName(tag),arr=[];
+            for (var i=0,n=els.length;i<n;i++){
+                for (var j=0,k=els[i].className.split(" "),m=k.length;j<m;j++){
+                    if(k[j]==str){
+                        arr.push(els[i]);
+                        break;
+                    }
+                }
+            }
+            return arr;
+        };
+        GLOBAL.Dom.addClass = function(node,str){ //定义添加 DOM Class属性值
+            if(!new RegExp("(^|\\s+)"+str).test(node.className)){
+                node.className = node.className+" "+str;
+            }
+        }
+        GLOBAL.Dom.removeClass=function(node,str){  //定义移除 DOM Class属性值
+            node.className = node.className.repeat(new RegExp("(^|\\s+)"+str),"");
+        }
+        GLOBAL.namespace("Event");  //定义Event事件 自各浏览器下兼容
+        GLOBAL.Event.on = function(node,eventType,handler,scope){
+            node = typeof node =='string'?document.getElementById("node"):node;
+            scope = scope || node;
+            if(document.all){ //IE兼容
+                node.attachEvent("on"+eventType,function(){handler.apply(scope,arguments)});
+            }else{
+                node.addEventListener(eventType,function(){handler.apply(scope,arguments)},false);
+            }
+        }
+
+        //对象编程：
+        function Tab(config){ //config是一个对象，里面包含所需要的参数属性
+            this._root = config.root; //root = config对象中 root 属性的值
+            this._currentClass = config.currentClass;
+            this._handler = config.handler;
+            var trigger = config.trigger || "click";
+            var autoPlay = config.autoPlay;
+            var playTime = config.playTime || 3000;
+            var This = this;
+            this._tabMenus = GLOBAL.Dom.getElementsByClassName("J_tab-menuWrapper",this._root);
+            this._tabContents = GLOBAL.Dom.getElementsByClassName("J_tab-contentWrapper",this._root);
+            this.countIndex = 0; //自动播放的计数器初始化
+            if(autoPlay){ //自动播放设置
+                var auto = setInterval(function(){This._autoHandler();},playTime);
+            }
+            //点击事件设置,遍历数组时对 DOM 监听事件，索引值始终等于遍历后结束的值。
+            ///  方法一 设置匿名函数使用闭包避免
+            for(var i=0;i<this._tabMenus.length;i++){
+                (function(_i){
+                    //_tabMenus[i]需要指向 This 在匿名函数里面this指向匿名函数
+                    GLOBAL.Event.on(This._tabMenus[i],trigger,function(){
+                        This.showItem(_i);
+                        This.countIndex = _i;
+                    });
+                })(i);
+            } //*/
+            /*//   方法二 是给 DOM 节点添加 _index 属性，属性值等于索引。
+            for(var i=0;i<this._tabMenus.length;i++){
+                this._tabMenus[i]._index = i;
+                GLOBAL.Event.on(this._tabMenus[i],trigger,function(){
+                    This.showItem(this._index);
+                    this.countIndex = this._index;
+                });
+            } //*/
+
+        }
+        Tab.prototype = {
+            showItem : function(n){  //设置动画
+                for(var j=0;j<this._tabContents.length;j++){
+                    this._tabContents[j].style.display = "none";
+                }
+                for (j=0;j<this._tabMenus.length;j++){
+                    GLOBAL.Dom.removeClass(this._tabMenus[j],this._currentClass)
+                }
+                GLOBAL.Dom.addClass(this._tabMenus[n],this._currentClass);
+                this._tabContents[n].style.display = "block";
+                if(this._handler){
+                    this._handler(n);
+                }
+            },
+            _autoHandler : function(){ //自动播放函数设置
+                this.countIndex++;
+                if(this.countIndex>=this._tabMenus.length){
+                    this.countIndex=0;
+                }
+                console.log(this.countIndex);
+                this.showItem(this.countIndex);
+            }
+        };
+
+        var tabs = GLOBAL.Dom.getElementsByClassName("J_tab");
+        var tab1 = new Tab({root:tabs[0],trigger:'mouseover'});
+        var tab2 = new Tab({root:tabs[1],currentClass:'tab-curentMenu',trigger:'click',hanlder:function(index){alert(index+1);}});
+        var tab3 = new Tab({root:tabs[2],currentClass:'tab-passMenu',autoPlay:true,playTime:1000});
+    </script>
+
+</body>
+</html>

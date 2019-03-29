@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>布局</title>
+</head>
+<body>
+    <!-- 简单布局
+    <style media="screen" type="text/css">
+        html,body{width: 90%;height: 90%;}
+        header{width: 100%;height: 10%;background-color: rgb(1, 177, 215);}
+        footer{width: 100%;height: 10%;background-color: rgb(1, 177, 215); clear: both;}
+        .sidebar{width: 25%;height: 70%;margin: 1% 0;float: left; background-color: rgb(1, 177, 215);}
+        .mian{width: 70%;height: 70%;margin: 1% 0;float: right; background-color: rgb(1, 177, 215);}
+    </style>
+    <header></header>
+    <div class="mian"></div>
+    <div class="sidebar"></div>
+    <footer></footer>
+    -->
+
+    <!-- 组合类布局
+    <style media="screen" type="text/css">
+        html,body{width: 90%;height: 90%;}
+        header{width: 100%;height: 10%;background-color: rgb(1, 177, 215);}
+        footer{width: 100%;height: 10%;background-color: rgb(1, 177, 215);}
+        .content{width: 100%;height: 40%;}
+        .fl{float: left;}.fr{float: right;}.cb{clear: both;}
+        .w25{width: 25%;}.w70{width: 70%;}
+        .w35{width: 35%;}.w60{width: 60%;}
+        .m1{margin: 1% 0;}
+        .main{height: 100%;background-color: rgb(1, 177, 215);}
+        .sidebar{height: 100%;background-color: rgb(1, 177, 215);}
+    </style>
+    <header></header>
+    <div class="content">
+        <div class="fr m1 w70 main"></div>
+        <div class="fl m1 w25 sidebar"></div>
+    </div>
+    <div class="content">
+        <div class="fl m1 w60 main"></div>
+        <div class="fr m1 w35 sidebar"></div>
+    </div>
+    <footer class="cb"></footer>
+    -->
+
+    <!-- 子选择器布局 -->
+    <style media="screen" type="text/css">
+        html,body{width: 90%;height: 90%;}
+        header{width: 100%;height: 10%;background-color: rgb(1, 177, 215);}
+        footer{width: 100%;height: 10%;background-color: rgb(1, 177, 215); clear: both;}
+        .content{width: 100%;height: 40%;clear: both;margin: 1% 0;}
+        .content-lr-7025 .main{float: left;width: 70%}
+        .content-lr-7025 .sidebar{float: right;width: 25%}
+        .content-rl-7025 .main{float: right;width: 70%}
+        .content-rl-7025 .sidebar{float: left;width: 25%}
+        .content-lr-6035 .main{float: left;width: 60%}
+        .content-lr-6035 .sidebar{float: right;width: 35%}
+        .content-rl-6035 .main{float: right;width: 60%}
+        .content-rl-6035 .sidebar{float: left;width: 35%}
+        .main{height: 100%;background-color: rgb(1, 177, 215);}
+        .sidebar{height: 100%;background-color: rgb(1, 177, 215);}
+    </style>
+    <header></header>
+    <div class="content content-rl-7025">
+        <div class="main"></div>
+        <div class="sidebar"></div>
+    </div>
+    <div class="content content-lr-6035">
+        <div class="main"></div>
+        <div class="sidebar"></div>
+    </div>
+    <footer class=""></footer>
+
+</body>
+</html>

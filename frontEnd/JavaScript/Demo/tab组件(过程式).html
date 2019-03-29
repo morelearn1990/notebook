@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tab 组件</title>
+    <style media="screen">
+        ul{margin: 0;padding: 0;}
+        .tab{/*width: 800px;*/margin-top: 5px;}
+        .tab-menuWrapper{padding-left: 20px;}
+        .tab-menuWrapper li{float: left;display: inline;padding: 5px;border: 1px solid #333;border-bottom: none;margin-right: 50px;}
+        .tab-contentWrapper{border: 1px solid #333;clear: both;padding: 5px;}
+        .tab .tab-curentMenu{background-color: #333;color: #FFF;}
+        .tab .tab-passMenu{background-color: rgb(16, 104, 205);color: #FFF;}
+    </style>
+</head>
+<body>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+            <li class="J_tab-menuWrapper">menu4</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+            <div style="display:none" class="J_tab-contentWrapper">content4</div>
+        </div>
+    </div>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper  tab-curentMenu">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+            <li class="J_tab-menuWrapper">menu4</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+            <div style="display:none" class="J_tab-contentWrapper">content4</div>
+        </div>
+    </div>
+    <div class="tab J_tab">
+        <ul class="tab-menuWrapper">
+            <li class="J_tab-menuWrapper tab-passMenu">menu1</li>
+            <li class="J_tab-menuWrapper">menu2</li>
+            <li class="J_tab-menuWrapper">menu3</li>
+        </ul>
+        <div class="tab-contentWrapper" id="tab-contentWrapper">
+            <div class="J_tab-contentWrapper">
+                <div></div>
+                <div></div>
+                <h1></h1>
+                <p>content1</p>
+            </div>
+            <div style="display:none" class="J_tab-contentWrapper">content2</div>
+            <div style="display:none" class="J_tab-contentWrapper">content3</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var GLOBAL = {} //定义全局变量
+        // 定义全局变量的命名空间
+        GLOBAL.namespace = function (str) {
+            var arr = str.split("."), o = GLOBAL;
+            for ( i = (arr[0] == "GLOBAL") ? 1 : 0; i < arr.length; i++) {
+                o[arr[i]] = o[arr[i]] || {} ;
+                o = o[arr[i]];
+            }
+        };
+        GLOBAL.namespace("Dom");
+        //定义使用getElementsByClassName 获得node
+        GLOBAL.Dom.getElementsByClassName = function (str, root, tag) {
+            if(root) {
+                root = (typeof root === "string") ? document.getElementById(root):root
+            }else{
+                root=document.body;
+            }
+            tag = tag || "*";
+            var els=root.getElementsByTagName(tag),arr=[];
+            for (var i=0,n=els.length;i<n;i++){
+                for (var j=0,k=els[i].className.split(" "),m=k.length;j<m;j++){
+                    if(k[j]==str){
+                        arr.push(els[i]);
+                        break;
+                    }
+                }
+            }
+            return arr;
+        };
+        GLOBAL.Dom.addClass = function(node,str){ //定义添加 DOM Class属性值
+            if(!new RegExp("(^|\\s+)"+str).test(node.className)){
+                node.className = node.className+" "+str;
+            }
+        }
+        GLOBAL.Dom.removeClass=function(node,str){  //定义移除 DOM Class属性值
+            node.className = node.className.repeat(new RegExp("(^|\\s+)"+str),"");
+        }
+        GLOBAL.namespace("Event");  //定义Event事件 自各浏览器下兼容
+        GLOBAL.Event.on = function(node,eventType,handler,scope){
+            node = typeof node =='string'?document.getElementById("node"):node;
+            scope = scope || node;
+            if(document.all){ //IE兼容
+                node.attachEvent("on"+eventType,function(){handler.apply(scope,arguments)});
+            }else{
+                node.addEventListener(eventType,function(){handler.apply(scope,arguments)},false);
+            }
+        }
+
+        //guocheng编程：
+        function setTab(config){ //config是一个对象，里面包含所需要的参数属性
+            var root = config.root, //root = config对象中 root 属性的值
+                currentClass = config.currentClass,
+                trigger = config.trigger || "click",
+                handler = config.handler,
+                autoPlay = config.autoPlay,
+                playTime = config.playTime || 3000;
+            var tabMenus = GLOBAL.Dom.getElementsByClassName("J_tab-menuWrapper",root),
+                tabContents = GLOBAL.Dom.getElementsByClassName("J_tab-contentWrapper",root);
+                countIndex = 0; //自动播放的计数器初始化
+
+            function showItem(n){  //设置动画
+                for(var j=0;j<tabContents.length;j++){
+                    tabContents[j].style.display = "none";
+                }
+                for (j=0;j<tabMenus.length;j++){
+                    GLOBAL.Dom.removeClass(tabMenus[j],currentClass)
+                }
+                GLOBAL.Dom.addClass(tabMenus[n],currentClass);
+                tabContents[n].style.display = "block";
+                if(handler){
+                    handler(n);
+                }
+            }
+            function autoHandler(){ //自动播放函数设置
+                countIndex++;
+                if(countIndex>=tabMenus.length){
+                    countIndex=0;
+                }
+                showItem(countIndex);
+            }
+            if(autoPlay){ //自动播放设置
+                setInterval(autoHandler,playTime);
+            }
+
+            //点击事件设置,遍历数组时对 DOM 监听事件，索引值始终等于遍历后结束的值。
+            /*   方法一 是给 DOM 节点添加 _index 属性，属性值等于索引。
+            for(var i=0;i<tabMenus.length;i++){
+                tabMenus[i]._index = i;
+                tabMenus[i].onclick = function(){
+                    for (var j=0;j<tabContents.length;j++){
+                        tabContents[j].style.display = "none";
+                    }
+                    tabContents[this._index].style.display = "block";
+                }
+            } */
+            //  方法二 设置匿名函数使用闭包避免
+            for(var i=0;i<tabMenus.length;i++){
+                (function(_i){
+                    GLOBAL.Event.on(tabMenus[i],trigger,function(){
+                        showItem(_i);
+                        countIndex = _i;
+                    });
+                })(i);
+            }
+        }
+        var tabs=GLOBAL.Dom.getElementsByClassName("J_tab");
+        setTab({root:tabs[0],trigger:'mouseover'});
+        setTab({root:tabs[1],currentClass:'tab-curentMenu',trigger:'click',hanlder:function(index){alert(index+1);}});
+        setTab({root:tabs[2],currentClass:'tab-passMenu',autoPlay:true,playTime:1000});
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义属性</title>
+</head>
+<body>
+    <a id="a" href="#" info = "{name:'自定义属性',type:'a标签'}">a 标签</a>
+    <script type="text/javascript">
+        var node = document.getElementById("a");
+        var info = node.getAttribute("info");
+        alert(typeof info);
+        alert(info.name);
+        alert(info.type);
+        info = eval("("+info+")");
+        alert(typeof info);
+        alert(info.name);
+        alert(info.type);
+    </script>
+</body>
+</html>
