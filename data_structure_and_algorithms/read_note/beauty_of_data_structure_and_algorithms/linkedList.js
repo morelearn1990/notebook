@@ -139,36 +139,94 @@ class singlyLinkedList {
   }
   // 合并有序列表，合并后同样有序
   concatOrderedList(head1, head2) {
-    if (head1.value < head2.value) {
-      let temp = head2;
-      head2 = head1;
-      head1 = temp;
+    //   假设链表按从小到大正序排序
+    let head, node, node1, node2;
+    if (head1.value <= head2.value) {
+      head = this.createNode(head1.value);
+      node1 = head1.next;
+      node2 = head2;
+    } else {
+      head = this.createNode(head2.value);
+      node1 = head2.next;
+      node2 = head1;
     }
-    let lastHead = this.createNode(head1.value);
-    let tempHead1 = lastHead;
-    let tempNode1 = head1.next;
-    while (tempNode1 !== null) {
-      tempHead1.next = this.createNode(tempNode.value);
-      tempHead1 = tempHead1.next;
-      tempNode1 = tempNode1.next;
-    }
-    let tempNode2 = head2;
-    let tempHead2 = lastHead;
-    while (tempNode2 !== null) {
-      if (tempNode2.value <= tempHead2.value) {
+    node = head;
+
+    while (node1 !== null || node2 !== null) {
+      if ((node1 && !node2) || (node1 && node1.value <= node2.value)) {
+        node.next = this.createNode(node1.value);
+        node1 = node1.next;
+      } else {
+        node.next = this.createNode(node2.value);
+        node2 = node2.next;
       }
+      node = node.next;
     }
+    // this.ergodic(head);
+    return head;
   }
   // 检测环
-  checkRing(head) {}
+  checkRing(head) {
+    let node1 = head;
+    let node2 = head;
+    let isRing = false;
+    while (node1 !== null && node2 !== null) {
+      node1 = node1.next;
+      node2 = node2.next ? node2.next.next : null;
+      if (node2 == node1) {
+        isRing = true;
+        break;
+      }
+    }
+    return isRing;
+  }
 }
 
 const link = new singlyLinkedList();
 
-let linkHead = link.createHead("aaa");
-link.insert(linkHead, "bbb");
-link.insert(linkHead, "ccc");
-link.insert(linkHead, "ddd");
-link.insert(linkHead, "eee");
-link.insertReverse(linkHead, "fff", 1);
-link.insertReverse(linkHead, "ggg", 0);
+// let linkHead = link.createHead("aaa");
+// link.insert(linkHead, "bbb");
+// link.insert(linkHead, "ccc");
+// link.insert(linkHead, "ddd");
+// link.insert(linkHead, "eee");
+// link.insertReverse(linkHead, "fff", 1);
+// link.insertReverse(linkHead, "ggg", 0);
+
+// let linkHeada = link.createHead(1);
+// link.insert(linkHeada, 2);
+// link.insert(linkHeada, 5);
+// link.insert(linkHeada, 7);
+// link.insert(linkHeada, 9);
+
+// let linkHeadb = link.createHead(1);
+// link.insert(linkHeadb, 3);
+// link.insert(linkHeadb, 4);
+// link.insert(linkHeadb, 7);
+// link.insert(linkHeadb, 8);
+
+// // link.ergodic(linkHeada);
+// // link.ergodic(linkHeadb);
+
+// let newHead = link.concatOrderedList(linkHeadb, linkHeada);
+// link.ergodic(newHead);
+
+let linkHead = link.createHead(1);
+
+let ling1 = link.createNode(2);
+let ling2 = link.createNode(3);
+let ling3 = link.createNode(4);
+let ling4 = link.createNode(5);
+let ling5 = link.createNode(6);
+let ling6 = link.createNode(7);
+let ling7 = link.createNode(8);
+linkHead.next = ling1;
+ling1.next = ling2;
+ling2.next = ling3;
+ling3.next = ling4;
+ling4.next = ling5;
+ling5.next = ling6;
+ling6.next = ling7;
+ling7.next = ling4;
+
+// link.ergodic(linkHead);
+console.log(link.checkRing(linkHead));
